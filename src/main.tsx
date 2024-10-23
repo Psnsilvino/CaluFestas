@@ -4,6 +4,7 @@ import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ProductPage from './pages/ProductPage.tsx';
 import NavBar from './components/NavBar.tsx';
+import Login from './pages/login.tsx';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: "/locacoes",
     element: <ProductPage />,
+  },
+  {
+    path: "/login",
+    element: <Login/>,
   },
 ]);
 
