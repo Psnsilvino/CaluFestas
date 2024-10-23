@@ -1,12 +1,15 @@
 import { Archive } from "lucide-react";
 import { Link } from "react-router-dom";
+import logo from "../assets/logo.png"
 
 const NavBar = () => {
 	return (
 		<>
 			<nav className="bg-blue-900 text-white px-6 py-4 flex justify-between items-center">
 				{/* Logo */}
-				<Link to={"https://youtu.be/dQw4w9WgXcQ?si=yfdfHyFkXMPliSeV"} className="text-3xl font-bold">Logo</Link>
+				<Link to={"https://youtu.be/dQw4w9WgXcQ?si=yfdfHyFkXMPliSeV"} className="text-3xl font-bold">
+					<img src={logo} alt="logo" className="w-24"/>
+				</Link>
 				{/* Links */}
 				<ul className="flex space-x-8 text-lg">
 					<li>
