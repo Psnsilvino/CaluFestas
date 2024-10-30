@@ -7,7 +7,7 @@ const NavBar = () => {
 		<>
 			<nav className="bg-blue-900 text-white px-6 py-4 flex justify-between items-center">
 				{/* Logo */}
-				<Link to={"https://youtu.be/dQw4w9WgXcQ?si=yfdfHyFkXMPliSeV"} className="text-3xl font-bold">
+				<Link to={"/"} className="text-3xl font-bold">
 					<img src={logo} alt="logo" className="w-24"/>
 				</Link>
 				{/* Links */}
@@ -28,15 +28,7 @@ const NavBar = () => {
 				</button>
 			</nav>
 			{/* Título abaixo da Navbar */}
-			<div className="px-6 py-4 flex items-center space-x-2">
-        		{/* Ícone */}
-				<Archive />
-        		{/* Título */}
-        		<h1 className="text-2xl font-semibold">Estoque</h1>
-      		</div>
-
-      		{/* Linha horizontal */}
-      		<hr className="mx-6 border-gray-300" />
+			
 		</>
 	);
 };

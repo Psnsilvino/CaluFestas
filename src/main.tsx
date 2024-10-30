@@ -3,13 +3,14 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ProductPage from './pages/ProductPage.tsx';
-import NavBar from './components/NavBar.tsx';
 import Login from './pages/login.tsx';
+import Home from './pages/home.tsx';
+import Clients from './pages/clientes.tsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <ProductPage />,
+    element: <Home />,
   },
   {
     path: "/estoque",
@@ -17,7 +18,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/clientes",
-    element: <NavBar />,
+    element: <Clients />,
   },
   {
     path: "/locacoes",
