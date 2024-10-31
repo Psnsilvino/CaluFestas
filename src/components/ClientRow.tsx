@@ -1,3 +1,4 @@
+import { PencilLine, Info } from 'lucide-react';
 import React from 'react';
 
 
@@ -20,10 +21,10 @@ const ClientRow: React.FC<ClientRowProps> = ({ client }) => {
       <td className="border p-3">{client.phone}</td>
       <td className="border p-3 text-center flex items-center justify-center gap-2">
         <button className="text-gray-600 hover:text-blue-500">
-          ed
+          <Info />
         </button>
-        <button className="text-gray-600 hover:text-blue-500">
-          ex
+        <button className="text-gray-600 hover:text-orange-500">
+          <PencilLine />
         </button>
       </td>
     </tr>
