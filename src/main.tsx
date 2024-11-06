@@ -7,6 +7,8 @@ import Login from './pages/login.tsx';
 import Home from './pages/home.tsx';
 import Clients from './pages/clientes.tsx';
 import LocacoesInfo from './pages/locacaoInfo.tsx';
+import LocationsPage from './pages/LocationsPage.tsx';
+
 
 
 const router = createBrowserRouter([
@@ -24,7 +26,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/locacoes",
-    element: <ProductPage />,
+    element: <LocationsPage />,
   },
   {
     path: "/locacaoInfo",
