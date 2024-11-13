@@ -29,8 +29,8 @@ export function Table({ categoria, corCategoria, corBorda}: TableProps) {
 	const [rows, setRows] = useState<TableRow[]>([]);
 	const [editRowIndex, setEditRowIndex] = useState<number | null>(null);
 	const [backupRow, setBackupRow] = useState<TableRow | null>(null);
-	const [loading, setLoading] = useState(true); // Estado de carregamento
-  	const [error, setError] = useState<string | null>(null); // Estado de erro
+	const [loading, setLoading] = useState(true);
+  	const [error, setError] = useState<string | null>(null);
 	
 	  useEffect(() => {
 		const fetchData = async () => {
@@ -89,7 +89,7 @@ export function Table({ categoria, corCategoria, corBorda}: TableProps) {
 				<tbody>
 					{rows.map((row, index) => (
 						<tr key={index} className="bg-gray-50">
-							<td className={`border-l-4 ${corBorda} p-2`}>{row.nome}</td>
+							<td className={`border-l-4 ${corBorda} p-2 w-2/6`}>{row.nome}</td>
 							<td className="p-2">
 								<input min={0} type="number" value={row.quantidade} disabled={editRowIndex !== index} onChange={(e) => {
                       				const updatedRows = [...rows];
@@ -105,7 +105,7 @@ export function Table({ categoria, corCategoria, corBorda}: TableProps) {
                     			}} />
 							</td>
 							<td className="p-2">{row.preco}</td>
-							<td className="p-2 w-[150px]">
+							<td className="p-2 w-40">
 								{ editRowIndex !== index && (
 									<TableButton icon={PencilLine} onClick={() => handleEditClick(index)} />
 								)}

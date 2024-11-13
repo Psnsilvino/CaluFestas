@@ -1,27 +1,60 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ClientRow from '../components/ClientRow';
 import NavBar from '../components/NavBar';
+import axios from 'axios';
+import { ClientsManagement } from '../interfaces/clientsManagement';
+import { Link } from 'react-router-dom';
 
 
-interface Client {
-  id: number;
-  name: string;
-  email: string;
-  phone: string;
-}
 
-const clientsData: Client[] = [
-  { id: 1, name: 'Lucas Corradi', email: 'lucas@email.com', phone: '(61) 99999-9999' },
-  { id: 2, name: 'Rafael Elias', email: 'rafael@email.com', phone: '(61) 99999-9999' },
-  { id: 3, name: 'Silvino Padilha', email: 'silvino@email.com', phone: '(61) 99999-9999' },
-  { id: 4, name: 'Fulanto de Tal', email: 'fulano.detal@email.com', phone: '(61) 99999-9999' },
-];
+// const clientsData: Client[] = [
+//   { _id: "1", nome: 'Lucas Corradi', email: 'lucas@email.com', telefone: 61999999999 },
+//   { _id: "2", name: 'Rafael Elias', email: 'rafael@email.com', telefone: 61999999999 },
+//   { _id: "3", name: 'Silvino Padilha', email: 'silvino@email.com', telefone: '(61) 99999-9999' },
+//   { _id: "4", name: 'Fulanto de Tal', email: 'fulano.detal@email.com', telefone: '(61) 99999-9999' },
+// ];
 
-const Clients: React.FC = () => {
+const ClientsPage: React.FC = () => {
+  const [clients, setClients] = useState<ClientsManagement[]>([]);
   const [search, setSearch] = useState('');
+  const [loading, setLoading] = useState(true); // Estado de carregamento
+  const [error, setError] = useState<string | null>(null); // Estado de erro
 
-  const filteredClients = clientsData.filter((client) =>
-    client.name.toLowerCase().includes(search.toLowerCase())
+  useEffect(() => {
+		const fetchData = async () => {
+		  try {
+			const response = await axios.get(`http://localhost:3000/api/clients`); // Substitua pela sua URL da API
+			setClients(response.data);
+		  } catch (err) {
+			setError(`Erro ao carregar dados: ${err}`);
+		  } finally {
+			setLoading(false);
+		  }
+		};
+	
+		fetchData();
+	  }, []);
+
+    if (loading) {
+      return (
+        <>
+          <NavBar/>
+          <p>Carregando...</p>
+        </>
+      ); // Exibe uma mensagem de carregamento
+    }
+    
+    if (error) {
+      return (
+        <>
+          <NavBar/>
+          <p>{error}</p>
+        </>
+      ); // Exibe uma mensagem de erro
+    }
+
+  const filteredClients = clients.filter((client) =>
+    client.nome.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -58,17 +91,20 @@ const Clients: React.FC = () => {
           </thead>
           <tbody>
             {filteredClients.map((client) => (
-              <ClientRow key={client.id} client={client} />
+              <ClientRow key={client._id} client={client} />
             ))}
           </tbody>
         </table>
-
-        <button className="text-blue-500 mt-4 hover:underline">
-          +Adicionar Cliente
-        </button>
+        
+        
+        <Link to={"/"}>
+          <button className="text-blue-500 mt-4 hover:underline">
+            +Adicionar Cliente
+          </button>
+        </Link>
       </div>
     </>
   );
 };
 
-export default Clients;
+export default ClientsPage;

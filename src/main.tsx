@@ -5,10 +5,10 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ProductPage from './pages/ProductPage.tsx';
 import Login from './pages/login.tsx';
 import Home from './pages/home.tsx';
-import Clients from './pages/clientes.tsx';
 import LocacoesInfo from './pages/locacaoInfo.tsx';
 import LocationsPage from './pages/LocationsPage.tsx';
 import AddProduct from './pages/AddProduct.tsx';
+import ClientsPage from './pages/clientes.tsx';
 
 
 
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/clientes",
-    element: <Clients />,
+    element: <ClientsPage />,
   },
   {
     path: "/locacoes",
