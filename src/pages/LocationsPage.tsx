@@ -13,11 +13,6 @@ const LocationsPage: React.FC = () => {
         <button className="bg-blue-600 text-white py-2 px-4 rounded-md mr-4">
           Nova locação
         </button>
-        <input
-          type="text"
-          placeholder="Pesquisar..."
-          className="border border-gray-300 rounded-md px-3 py-2 text-sm"
-        />
       </div>
       <h2 className="text-2xl font-semibold flex items-center space-x-2 mb-6">
         <span>Locações</span>

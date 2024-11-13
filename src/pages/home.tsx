@@ -30,7 +30,7 @@ const Home: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
           {/* Card Estoque */}
           <Link to={"/estoque"}>
-            <div className="bg-yellow-400 text-white rounded-lg p-6 flex flex-col items-center space-y-2 hover:bg-yellow-500 transition">
+            <div className="bg-orangeButton text-white rounded-lg p-6 flex flex-col items-center space-y-2 hover:bg-yellow-500 transition">
               <div className="text-4xl">📋</div>
               <span className="text-xl font-semibold">Estoque</span>
             </div>
@@ -38,7 +38,7 @@ const Home: React.FC = () => {
 
           {/* Card Clientes */}
           <Link to={"/clientes"}>
-            <div className="bg-yellow-400 text-white rounded-lg p-6 flex flex-col items-center space-y-2 hover:bg-yellow-500 transition">
+            <div className="bg-orangeButton text-white rounded-lg p-6 flex flex-col items-center space-y-2 hover:bg-yellow-500 transition">
               <div className="text-4xl">👥</div>
               <span className="text-xl font-semibold">Clientes</span>
             </div>
@@ -46,7 +46,7 @@ const Home: React.FC = () => {
 
           {/* Card Locações */}
           <Link to={"/locacoes"}>
-            <div className="bg-yellow-400 text-white rounded-lg p-6 flex flex-col items-center space-y-2 hover:bg-yellow-500 transition">
+            <div className="bg-orangeButton text-white rounded-lg p-6 flex flex-col items-center space-y-2 hover:bg-yellow-500 transition">
               <div className="text-4xl">🚚</div>
               <span className="text-xl font-semibold">Locações</span>
             </div>

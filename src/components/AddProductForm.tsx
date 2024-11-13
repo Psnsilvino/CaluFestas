@@ -2,19 +2,14 @@ import React, { useState } from 'react';
 
 const AddProductForm: React.FC = () => {
   const [quantity, setQuantity] = useState<number | ''>('');
-  const [date, setDate] = useState<string>('');
 
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuantity(Number(e.target.value));
   };
 
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDate(e.target.value);
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(`Quantity: ${quantity}, Date: ${date}`);
+    console.log(`Quantity: ${quantity}`);
   };
 
   return (
@@ -31,13 +26,6 @@ const AddProductForm: React.FC = () => {
         value={quantity}
         onChange={handleQuantityChange}
         placeholder="Quantidade"
-        required
-      />
-      <input
-        className="p-2 mb-4 border rounded"
-        type="datetime-local"
-        value={date}
-        onChange={handleDateChange}
         required
       />
       <button type="submit" className="p-2 bg-gray-900 text-white rounded hover:bg-gray-700">
