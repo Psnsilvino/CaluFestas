@@ -8,6 +8,7 @@ import Home from './pages/home.tsx';
 import Clients from './pages/clientes.tsx';
 import LocacoesInfo from './pages/locacaoInfo.tsx';
 import LocationsPage from './pages/LocationsPage.tsx';
+import AddProduct from './pages/AddProduct.tsx';
 
 
 
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login/>,
+  },
+  {
+    path: "/locacoes/adicionarProduto",
+    element: <AddProduct/>,
   },
 ]);
 
