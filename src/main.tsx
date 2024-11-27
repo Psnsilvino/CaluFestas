@@ -9,6 +9,8 @@ import LocacoesInfo from './pages/locacaoInfo.tsx';
 import LocationsPage from './pages/LocationsPage.tsx';
 import AddProduct from './pages/AddProduct.tsx';
 import ClientsPage from './pages/clientes.tsx';
+import InfoClientes from './pages/infoclientes.tsx';
+
 
 
 
@@ -40,6 +42,10 @@ const router = createBrowserRouter([
   {
     path: "/locacoes/adicionarProduto",
     element: <AddProduct/>,
+  },
+  {
+    path: "/infoclientes",
+    element: <InfoClientes/>,
   },
 ]);
 
