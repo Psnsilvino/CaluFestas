@@ -1,4 +1,3 @@
-// src/pages/LocationsPage.tsx
 import React from 'react';
 import LocationTable from '../components/Table/LocationTable.tsx';
 import NavBar from '../components/NavBar.tsx';
