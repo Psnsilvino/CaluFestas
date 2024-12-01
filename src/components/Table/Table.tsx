@@ -35,7 +35,7 @@ export function Table({ categoria, corCategoria, corBorda}: TableProps) {
 	  useEffect(() => {
 		const fetchData = async () => {
 		  try {
-			const response = await axios.get(`http://localhost:3000/api/products/${categoria}`); // Substitua pela sua URL da API
+			const response = await axios.get(`http://localhost:3000/api/products/${categoria}`, {withCredentials: true}); // Substitua pela sua URL da API
 			setRows(response.data);
 		  } catch (err) {
 			setError(`Erro ao carregar dados: ${err}`);

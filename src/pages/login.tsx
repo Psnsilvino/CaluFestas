@@ -14,12 +14,16 @@ const Login = () => {
       const response = await axios.post("http://localhost:3000/api/users/login", {
         email,
         senha,
-      });
+      },
+      {
+        withCredentials: true, // Permite o envio e recebimento de cookies
+      }
+    );
 
       if (response.status === 200) {
         // Sucesso: redirecione o usuário ou salve o token conforme necessário
         console.log("Login bem-sucedido", response.data);
-        navigate("/"); // Redireciona para a página inicial
+        navigate("/", {replace: true}); // Redireciona para a página inicial
       }
     } catch (error) {
       console.error("Erro ao fazer login", error);

@@ -1,8 +1,24 @@
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png"
+import axios from "axios";
+
 
 const NavBar = () => {
+
+	const navigate = useNavigate();
+
+	const handleClick = async (e: { preventDefault: () => void; }) => {
+		e.preventDefault();
+		try {
+			const response = await axios.post("http://localhost:3000/api/users/logout", {}, {withCredentials: true})
+			console.log(response)
+			navigate("/login")
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
 	return (
 		<>
 			<nav className="bg-blue-900 text-white px-6 py-4 flex justify-between items-center">
@@ -23,11 +39,10 @@ const NavBar = () => {
 					</li>
 				</ul>
 				{/* Logout button */}
-				<Link to={"/login"}>
-					<button className="bg-blue-800 hover:bg-blue-700 text-white py-2 px-4 rounded-full">
-						Logout
-					</button>
-				</Link>
+				
+				<button className="bg-blue-800 hover:bg-blue-700 text-white py-2 px-4 rounded-full" onClick={handleClick}>
+					Logout
+				</button>
 			</nav>
 			{/* Título abaixo da Navbar */}
 
