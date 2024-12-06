@@ -27,7 +27,7 @@ export function Table({ categoria, corCategoria, corBorda}: TableProps) {
 	// 	{ name: 'Mesa de 1,50m', stock: 6, rented: 0, price: 'R$ 20,00' },
 	// ])
 	const [rows, setRows] = useState<TableRow[]>([]);
-	const [editRowIndex, setEditRowIndex] = useState<number | null>(null);
+	const [editRowId, setEditRowId] = useState<string | null>(null);
 	const [backupRow, setBackupRow] = useState<TableRow | null>(null);
 	const [loading, setLoading] = useState(true);
   	const [error, setError] = useState<string | null>(null);
@@ -47,24 +47,42 @@ export function Table({ categoria, corCategoria, corBorda}: TableProps) {
 		fetchData();
 	  }, [categoria]);
 
-	const handleEditClick = (index: number) => {
-		setEditRowIndex(index === editRowIndex ? null : index);
-		setBackupRow({ ...rows[index] });
-	};
+	  const handleEditClick = (id: string) => {
+		const rowToEdit = rows.find((row) => row._id === id);
+		if (rowToEdit) {
+		  setBackupRow({ ...rowToEdit }); // Salva uma cópia da linha original
+		  setEditRowId(id); // Define o ID da linha em edição
+		}
+	  };
 
-	const handleRevertClick = () => {
-		if (backupRow && editRowIndex !== null) {
-			const updatedRows = [...rows];
-			updatedRows[editRowIndex] = backupRow; // Restaura os dados originais da linha
-			setRows(updatedRows); // Atualiza o estado com os dados restaurados
-		  }
-		  setEditRowIndex(null); // Desabilita o modo de edição
-		  setBackupRow(null); // Limpa o backup
-	}
+	  const handleCancelClick = () => {
+		if (backupRow && editRowId !== null) {
+		  const updatedRows = rows.map((row) =>
+			row._id === editRowId ? backupRow : row // Restaura os dados antigos da linha em edição
+		  );
+		  setRows(updatedRows); // Atualiza o estado com os dados restaurados
+		}
+		setEditRowId(null); // Desabilita o modo de edição
+		setBackupRow(null); // Limpa o backup
+	  };
 
-	const handleSaveClick = () => {
-		setEditRowIndex(null)
-	}
+	  const handleSaveClick = async () => {
+		if (editRowId === null) return; // Não faz nada se não houver uma linha em edição
+	
+		const updatedRow = rows.find((row) => row._id === editRowId);
+		if (!updatedRow) return; // Segurança: caso a linha não seja encontrada
+	
+		try {
+			console.log(updatedRow._id)
+		  await axios.put(`http://localhost:3000/api/products/${updatedRow._id}`, updatedRow,); // Substitua pela sua URL e endpoint
+		  setEditRowId(null); // Desabilita o modo de edição após o sucesso
+		  setBackupRow(null); // Limpa o backup após o sucesso
+		  alert('Dados atualizados com sucesso!');
+		} catch (err) {
+		  console.error('Erro ao atualizar os dados:', err);
+		  alert(err);
+		}
+	  };
 
 	if (loading) {
 		return <p>Carregando...</p>; // Exibe uma mensagem de carregamento
@@ -87,32 +105,34 @@ export function Table({ categoria, corCategoria, corBorda}: TableProps) {
 					</tr>
 				</thead>
 				<tbody>
-					{rows.map((row, index) => (
-						<tr key={index} className="bg-gray-50">
+					{rows.map((row) => (
+						<tr key={row._id} className="bg-gray-50">
 							<td className={`border-l-4 ${corBorda} p-2 w-2/6`}>{row.nome}</td>
 							<td className="p-2">
-								<input min={0} type="number" value={row.quantidade} disabled={editRowIndex !== index} onChange={(e) => {
-                      				const updatedRows = [...rows];
-                      				updatedRows[index].quantidade = Number(e.target.value);
+								<input min={0} type="number" value={row.quantidade - row.quantidadeEmLocacao} disabled={editRowId !== row._id} onChange={(e) => {
+                      				const updatedRows = rows.map((r) =>
+                        				r._id === row._id ? { ...r, quantidade: Number(e.target.value) } : r
+                      				);
                       				setRows(updatedRows);
                     			}} />
 							</td>
 							<td className="p-2">
-								<input min={0} type="number" value={row.quantidadeEmLocacao} disabled={editRowIndex !== index} onChange={(e) => {
-                      				const updatedRows = [...rows];
-                      				updatedRows[index].quantidadeEmLocacao = Number(e.target.value);
+								<input min={0} type="number" max={row.quantidade} value={row.quantidadeEmLocacao} disabled={editRowId !== row._id} onChange={(e) => {
+                      				const updatedRows = rows.map((r) =>
+                        				r._id === row._id ? { ...r, quantidadeEmLocacao: Number(e.target.value) } : r
+                      				);
                       				setRows(updatedRows);
                     			}} />
 							</td>
 							<td className="p-2">{row.preco}</td>
 							<td className="p-2 w-40">
-								{ editRowIndex !== index && (
-									<TableButton icon={PencilLine} onClick={() => handleEditClick(index)} />
+								{ editRowId !== row._id && (
+									<TableButton icon={PencilLine} onClick={() => handleEditClick(row._id)} />
 								)}
-								{ editRowIndex === index && (
+								{ editRowId === row._id && (
 									<div>
-										<TableButton icon={Check} cor="text-green-600" onClick={() => handleSaveClick()} />
-										<TableButton icon={X} cor="text-red-600" onClick={() => handleRevertClick()} />
+										<TableButton icon={Check} cor="text-green-600" onClick={handleSaveClick} />
+										<TableButton icon={X} cor="text-red-600" onClick={() => handleCancelClick()} />
 									</div>
 								)}
 							</td>

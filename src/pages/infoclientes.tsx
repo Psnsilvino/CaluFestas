@@ -1,7 +1,79 @@
-import { Link } from 'react-router-dom';
-import NavBar from '../components/NavBar.tsx';
+import { Link, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import NavBar from "../components/NavBar.tsx";
+import { HistoriaLocacoes } from "../components/HistoriaLocacoes";
 
-const ClientDetails = () => {
+interface ClientDetailsProps {
+  novo?: boolean;
+}
+
+const ClientDetails = ({ novo }: ClientDetailsProps) => {
+  const params = useParams<{ idCliente: string }>();
+
+  // Estados para os inputs
+  const [telefone, setTelefone] = useState("");
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [endereco, setEndereco] = useState("");
+
+  // Estado para controle de carregamento e erros
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    // Verifica se é um cliente novo ou existente
+    if (!novo && params.idCliente) {
+      axios
+        .get(`http://localhost:3000/api/clients/${params.idCliente}`, {withCredentials:true})
+        .then((response) => {
+          const { nome, telefone, email, endereco } = response.data;
+          setNome(nome);
+          setTelefone(telefone);
+          setEmail(email);
+          setEndereco(endereco);
+        })
+        .catch((err) => {
+          setError("Erro ao carregar dados do cliente");
+          console.error(err);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } else {
+      setLoading(false); // Se for novo, não faz a requisição
+    }
+  }, [novo, params.idCliente]);
+
+  const handleSave = () => {
+    // const cliente = { nome, telefone, email, endereco };
+
+    if (novo) {
+      axios
+        .post("http://localhost:3000/api/clients", { nome: nome, telefone: telefone, email: email, endereco: endereco }, {withCredentials:true})
+        .then(() => {
+          alert("Cliente criado com sucesso!");
+        })
+        .catch((err) => {
+          alert("Erro ao criar cliente");
+          console.error(err);
+        });
+    } else if (params.idCliente) {
+      axios
+        .put(`http://localhost:3000/api/clients/${params.idCliente}`, { nome: nome, telefone: telefone, email: email, endereco: endereco })
+        .then(() => {
+          alert("Dados atualizados com sucesso!");
+        })
+        .catch((err) => {
+          alert("Erro ao salvar alterações");
+          console.error(err);
+        });
+    }
+  };
+
+  if (loading) return <div>Carregando...</div>;
+  if (error) return <div>{error}</div>;
+
   return (
     <>
       <NavBar />
@@ -15,27 +87,50 @@ const ClientDetails = () => {
         {/* Informações do cliente */}
         <div className="bg-white shadow rounded-lg p-6 mb-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
+            <div className="flex flex-col">
               <label className="text-sm text-gray-600">Id do usuário</label>
-              <p className="bg-gray-100 rounded-md p-2">#L121412</p>
+              <input
+                type="text"
+                className="bg-gray-200 rounded-md p-2"
+                value={params.idCliente || ""}
+                readOnly
+              />
             </div>
-            <div>
+            <div className="flex flex-col">
               <label className="text-sm text-gray-600">Telefone</label>
-              <p className="bg-gray-100 rounded-md p-2">(99) 99999-9999</p>
+              <input
+                type="text"
+                className="bg-gray-200 rounded-md p-2"
+                value={telefone}
+                onChange={(e) => setTelefone(e.target.value)}
+              />
             </div>
-            <div>
+            <div className="flex flex-col">
               <label className="text-sm text-gray-600">Nome</label>
-              <p className="bg-gray-100 rounded-md p-2">Fulano de Tal</p>
+              <input
+                type="text"
+                className="bg-gray-200 rounded-md p-2"
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+              />
             </div>
-            <div>
+            <div className="flex flex-col">
               <label className="text-sm text-gray-600">Email</label>
-              <p className="bg-gray-100 rounded-md p-2">fulano@email.com</p>
+              <input
+                type="text"
+                className="bg-gray-200 rounded-md p-2"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
-            <div className="md:col-span-2">
+            <div className="md:col-span-2 flex flex-col">
               <label className="text-sm text-gray-600">Endereço</label>
-              <p className="bg-gray-100 rounded-md p-2">
-                Rua Não Existe Número ABC Casa 123
-              </p>
+              <input
+                type="text"
+                className="bg-gray-200 rounded-md p-2"
+                value={endereco}
+                onChange={(e) => setEndereco(e.target.value)}
+              />
             </div>
           </div>
 
@@ -46,52 +141,15 @@ const ClientDetails = () => {
                 🔙 Voltar
               </button>
             </Link>
-            <button className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600">
-              ✏️ Editar informações
+            <button
+              onClick={handleSave}
+              className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600"
+            >
+              ✏️ Salvar alterações
             </button>
           </div>
         </div>
-
-        {/* Histórico de locações */}
-        <div className="bg-white shadow rounded-lg">
-          <div className="bg-yellow-500 text-white rounded-t-lg px-6 py-3 flex items-center gap-2">
-            <span className="text-xl">🚚</span>
-            <h2 className="text-lg font-semibold">Histórico de locações</h2>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-gray-100 text-gray-600 text-sm">
-                  <th className="p-3 border-b">Id da locação</th>
-                  <th className="p-3 border-b">Data de entrega</th>
-                  <th className="p-3 border-b">Data de retirada</th>
-                  <th className="p-3 border-b">Endereço</th>
-                  <th className="p-3 border-b">Pagamento</th>
-                  <th className="p-3 border-b">Produtos</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="hover:bg-gray-50 text-sm">
-                  <td className="p-3 border-b">#1347</td>
-                  <td className="p-3 border-b">22/09/2024</td>
-                  <td className="p-3 border-b">23/09/2024</td>
-                  <td className="p-3 border-b">
-                    Rua Não Existe Número ABC Casa 123
-                  </td>
-                  <td className="p-3 border-b">PIX</td>
-                  <td className="p-3 border-b">
-                    <Link
-                      to="/locacaoInfo"
-                      className="text-blue-500 underline hover:text-blue-700"
-                    >
-                      Produtos ↗
-                    </Link>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+        {!novo && <HistoriaLocacoes />}
       </div>
     </>
   );

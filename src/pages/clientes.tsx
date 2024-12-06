@@ -65,9 +65,11 @@ const ClientsPage: React.FC = () => {
           <h1 className="text-2xl font-semibold flex items-center gap-2">
             <span role="img" aria-label="clients">👥</span> Clientes
           </h1>
-          <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
-            Novo Cliente
-          </button>
+          <Link to={"/clientes/adicionarCliente"}>
+            <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+              Novo Cliente
+            </button>
+          </Link>
         </div>
 
         <div className="relative mb-4">
@@ -97,7 +99,7 @@ const ClientsPage: React.FC = () => {
         </table>
         
         
-        <Link to={"/"}>
+        <Link to={"/clientes/adicionarCliente"}>
           <button className="text-blue-500 mt-4 hover:underline">
             +Adicionar Cliente
           </button>

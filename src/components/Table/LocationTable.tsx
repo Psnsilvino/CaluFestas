@@ -1,16 +1,47 @@
-// src/components/LocationTable.tsx
-import React from 'react';
-import { PencilLine, Info } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Info } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
+interface Location {
+  _id: number;
+  data_inicio: string;
+  data_fim: string;
+  endereco: string;
+}
 
 const LocationTable: React.FC = () => {
-  // Sample data for illustration purposes
-  const locations = [
-    { id: 1, deliveryDate: '08/11/2024', pickupDate: '12/11/2024', address: 'endereço' },
-    { id: 2, deliveryDate: '', pickupDate: '', address: '' },
-    { id: 3, deliveryDate: '', pickupDate: '', address: '' },
-    { id: 4, deliveryDate: '74294', pickupDate: '', address: '' },
-  ];
+  const [locations, setLocations] = useState<Location[]>([]);  // Garantir que seja um array inicialmente
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3000/api/locations')
+      .then((response) => {
+        // Verifica se a resposta é um array válido
+        if (Array.isArray(response.data)) {
+          setLocations(response.data);
+        } else {
+          setError("Dados das locações estão mal formatados.");
+        }
+      })
+      .catch((err) => {
+        setError("Erro ao carregar as locações.");
+        console.error(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <div>Carregando...</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-500">{error}</div>;
+  }
 
   return (
     <div className="overflow-x-auto">
@@ -26,22 +57,19 @@ const LocationTable: React.FC = () => {
         </thead>
         <tbody>
           {locations.map((location) => (
-            <tr key={location.id} className="border-b">
-              <td className="text-center p-4 text-gray-700 border border-gray-300">{location.id}</td>
-              <td className="text-center p-4 text-gray-700 border border-gray-300">{location.deliveryDate}</td>
-              <td className="text-center p-4 text-gray-700 border border-gray-300">{location.pickupDate}</td>
-              <td className="text-center p-4 text-gray-700 border border-gray-300">{location.address}</td>
+            <tr key={location._id} className="border-b">
+              <td className="text-center p-4 text-gray-700 border border-gray-300">{location._id}</td>
+              <td className="text-center p-4 text-gray-700 border border-gray-300">{location.data_inicio || "Não informado"}</td>
+              <td className="text-center p-4 text-gray-700 border border-gray-300">{location.data_fim || "Não informado"}</td>
+              <td className="text-center p-4 text-gray-700 border border-gray-300">{location.endereco || "Não informado"}</td>
               <td className="p-4 text-center border border-gray-300">
-
                 <div className="flex justify-center space-x-2">
-                  <button className="text-gray-600 hover:text-gray-900">
-                    <Info/>
-                  </button>
-                  <button className="text-gray-600 hover:text-gray-900">
-                    <PencilLine/>
-                  </button>
+                  <Link to={`/locacoes/${location._id}`}>
+                    <button className="text-gray-600 hover:text-gray-900">
+                      <Info />
+                    </button>
+                  </Link>
                 </div>
-
               </td>
             </tr>
           ))}

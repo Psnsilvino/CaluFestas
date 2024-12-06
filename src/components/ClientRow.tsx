@@ -1,6 +1,7 @@
-import { PencilLine, Info } from 'lucide-react';
+import { HousePlus, Info } from 'lucide-react';
 import React from 'react';
 import { ClientsManagement } from '../interfaces/clientsManagement';
+import { Link } from 'react-router-dom';
 
 
 interface ClientRowProps {
@@ -14,12 +15,16 @@ const ClientRow: React.FC<ClientRowProps> = ({ client }) => {
       <td className="border p-3">{client.email}</td>
       <td className="border p-3">{client.telefone}</td>
       <td className="border p-3 text-center flex items-center justify-center gap-2">
-        <button className="text-gray-600 hover:text-blue-500">
-          <Info />
-        </button>
-        <button className="text-gray-600 hover:text-orange-500">
-          <PencilLine />
-        </button>
+        <Link to={`/clientes/${client._id}`}>
+          <button className="text-gray-600 hover:text-blue-500">
+            <Info />
+          </button>
+        </Link>
+        <Link to={`/locacoes/adicionarLocacao/${client._id}`}>
+          <button className="text-gray-600 hover:text-orange-500">
+            <HousePlus />
+          </button>
+        </Link>
       </td>
     </tr>
   );
