@@ -23,7 +23,7 @@ const AddProductForm: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get<Product[]>('http://localhost:3000/api/products');
+        const response = await axios.get<Product[]>('http://localhost:3000/api/products', {withCredentials: true});
         setProducts(response.data);
       } catch (err) {
         setError('Erro ao carregar os produtos.');
@@ -72,7 +72,7 @@ const AddProductForm: React.FC = () => {
         locacao: params.idLocacao,
         quantidade: quantity,
         preco: productDetails ? productDetails?.preco : 0,
-      });
+      }, { withCredentials: true });
 
       console.log(response)
 
