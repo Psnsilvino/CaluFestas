@@ -34,7 +34,7 @@ const router = createBrowserRouter([
 	},
 	{
 		path: "/clientes/:idCliente",
-		element: <InfoClientes/>,
+		element: <InfoClientes novo={false}/>,
 	},
 	{
 		path: "/locacoes",
@@ -45,11 +45,11 @@ const router = createBrowserRouter([
 		element: <LocacaoForm novo/>,
 	},
 	{
-		path: "/locacoes/:idLocacoes",
-		element: <LocacaoForm/>,
+		path: "/locacoes/:idLocacao",
+		element: <LocacaoForm novo={false}/>,
 	},
 	{
-		path: "/locacoes/:idLocacoes/adicionarProduto",
+		path: "/locacoes/:idLocacao/adicionarProduto",
 		element: <AddProduct/>,
 	},
 ]);

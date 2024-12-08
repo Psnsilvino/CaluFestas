@@ -88,21 +88,12 @@ const ClientDetails = ({ novo }: ClientDetailsProps) => {
         <div className="bg-white shadow rounded-lg p-6 mb-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col">
-              <label className="text-sm text-gray-600">Id do usuário</label>
+              <label className="text-sm text-gray-600 ">Id do usuário</label>
               <input
                 type="text"
-                className="bg-gray-200 rounded-md p-2"
+                className="bg-gray-300 rounded-md p-2"
                 value={params.idCliente || ""}
                 readOnly
-              />
-            </div>
-            <div className="flex flex-col">
-              <label className="text-sm text-gray-600">Telefone</label>
-              <input
-                type="text"
-                className="bg-gray-200 rounded-md p-2"
-                value={telefone}
-                onChange={(e) => setTelefone(e.target.value)}
               />
             </div>
             <div className="flex flex-col">
@@ -112,6 +103,15 @@ const ClientDetails = ({ novo }: ClientDetailsProps) => {
                 className="bg-gray-200 rounded-md p-2"
                 value={nome}
                 onChange={(e) => setNome(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col">
+              <label className="text-sm text-gray-600">Telefone</label>
+              <input
+                type="text"
+                className="bg-gray-200 rounded-md p-2"
+                value={telefone}
+                onChange={(e) => setTelefone(e.target.value)}
               />
             </div>
             <div className="flex flex-col">
@@ -149,7 +149,7 @@ const ClientDetails = ({ novo }: ClientDetailsProps) => {
             </button>
           </div>
         </div>
-        {!novo && <HistoriaLocacoes />}
+        {!novo && <HistoriaLocacoes idCliente={params.idCliente} />}
       </div>
     </>
   );

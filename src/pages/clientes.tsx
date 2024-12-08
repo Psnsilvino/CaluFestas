@@ -54,7 +54,7 @@ const ClientsPage: React.FC = () => {
     }
 
   const filteredClients = clients.filter((client) =>
-    client.nome.toLowerCase().includes(search.toLowerCase())
+    client._id.toLowerCase().includes(search.toLowerCase())
   );
 
   return (

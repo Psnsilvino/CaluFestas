@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import NavBar from "../components/NavBar";
 import { ProdutosAlugados } from "../components/ProdutosAlugados";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
 interface LocacaoFormProps {
@@ -9,13 +9,13 @@ interface LocacaoFormProps {
 }
 
 export const LocacaoForm = ({ novo }: LocacaoFormProps) => {
-  const params = useParams<{ idLocacao: string; idCliente: string }>();
+  const params = useParams<{ idLocacao: string, idCliente: string }>();
 
   const [locacao, setLocacao] = useState({
-    idLocacao: "",
-    deliveryDate: "",
-    pickupDate: "",
-    cliente: "",
+    _id: params.idLocacao,
+    data_inicio: "",
+    data_fim: "",
+    cliente: params.idCliente,
     pagamento: "",
     precoTotal: "",
     endereco: "",
@@ -28,7 +28,7 @@ export const LocacaoForm = ({ novo }: LocacaoFormProps) => {
   useEffect(() => {
     if (!novo && params.idLocacao) {
       axios
-        .get(`/api/locacoes/${params.idLocacao}`)
+        .get(`http://localhost:3000/api/locations/${params.idLocacao}`)
         .then((response) => {
           setLocacao(response.data);
         })
@@ -47,13 +47,13 @@ export const LocacaoForm = ({ novo }: LocacaoFormProps) => {
   const handleSave = () => {
     const formattedData = {
       ...locacao,
-      deliveryDate: locacao.deliveryDate || null, // Garante que a data siga o formato ISO ou seja nula
-      pickupDate: locacao.pickupDate || null,
+      data_inicio: locacao.data_inicio || null, // Garante que a data siga o formato ISO ou seja nula
+      data_fim: locacao.data_fim || null,
     };
 
     const request = novo
-      ? axios.post("/api/locacoes", formattedData)
-      : axios.put(`/api/locacoes/${params.idLocacao}`, formattedData);
+      ? axios.post("http://localhost:3000/api/locations", formattedData)
+      : axios.put(`http://localhost:3000/api/locations/${params.idLocacao}`, formattedData);
 
     request
       .then(() => {
@@ -88,8 +88,8 @@ export const LocacaoForm = ({ novo }: LocacaoFormProps) => {
             <label className="block text-gray-700">Id da locação</label>
             <input
               type="text"
-              className="w-full p-2 border rounded-md bg-gray-200"
-              value={locacao.idLocacao}
+              className="w-full p-2 border rounded-md bg-gray-300"
+              value={locacao._id}
               readOnly
             />
           </div>
@@ -97,10 +97,10 @@ export const LocacaoForm = ({ novo }: LocacaoFormProps) => {
             <label className="block text-gray-700">Data de entrega</label>
             <input
               type="text"
-              className="w-full p-2 border rounded-md"
-              value={locacao.deliveryDate}
+              className="w-full p-2 border rounded-md bg-gray-200"
+              value={locacao.data_inicio}
               onChange={(e) =>
-                handleChange("deliveryDate", e.target.value)
+                handleChange("data_inicio", e.target.value)
               }
             />
           </div>
@@ -108,47 +108,48 @@ export const LocacaoForm = ({ novo }: LocacaoFormProps) => {
             <label className="block text-gray-700">Data de retirada</label>
             <input
               type="text"
-              className="w-full p-2 border rounded-md"
-              value={locacao.pickupDate}
+              className="w-full p-2 border rounded-md bg-gray-200"
+              value={locacao.data_fim}
               onChange={(e) =>
-                handleChange("pickupDate", e.target.value)
+                handleChange("data_fim", e.target.value)
               }
             />
           </div>
           <div>
             <label className="block text-gray-700">Cliente</label>
-            <input
+            {!novo && (
+              <Link to={`/clientes/${locacao.cliente}`}>
+                <input
+                type="text"
+                className="w-full p-2 border rounded-md bg-green-100"
+                value={locacao.cliente}
+                readOnly
+                />
+              </Link>
+            )}
+            {novo && (
+              <input
               type="text"
-              className="w-full p-2 border rounded-md"
+              className="w-full p-2 border rounded-md bg-gray-300"
               value={locacao.cliente}
-              onChange={(e) => handleChange("cliente", e.target.value)}
+              readOnly
             />
+            )}
           </div>
           <div>
             <label className="block text-gray-700">Pagamento</label>
             <input
               type="text"
-              className="w-full p-2 border rounded-md"
+              className="w-full p-2 border rounded-md bg-gray-200"
               value={locacao.pagamento}
               onChange={(e) => handleChange("pagamento", e.target.value)}
             />
           </div>
           <div>
-            <label className="block text-gray-700">Preço total</label>
-            <input
-              type="text"
-              className="w-full p-2 border rounded-md"
-              value={locacao.precoTotal}
-              onChange={(e) =>
-                handleChange("precoTotal", e.target.value)
-              }
-            />
-          </div>
-          <div className="col-span-2">
             <label className="block text-gray-700">Endereço</label>
             <input
               type="text"
-              className="w-full p-2 border rounded-md"
+              className="w-full p-2 border rounded-md bg-gray-200"
               value={locacao.endereco}
               onChange={(e) => handleChange("endereco", e.target.value)}
             />
@@ -163,17 +164,25 @@ export const LocacaoForm = ({ novo }: LocacaoFormProps) => {
             />
           </div>
         </div>
+        <div className="flex justify-end gap-2 mt-6">
+            <Link to={"/locacoes"}>
+              <button className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md shadow hover:bg-gray-300">
+                🔙 Voltar
+              </button>
+            </Link>
+            <button
+              onClick={handleSave}
+              className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600"
+            >
+              ✏️ Salvar alterações
+            </button>
+          </div>
+        
 
         {/* Produtos Alugados */}
-        {!novo && <ProdutosAlugados />}
+        {!novo && <ProdutosAlugados idLocacao={locacao._id} />}
 
-        {/* Botão de Salvar */}
-        <button
-          onClick={handleSave}
-          className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600"
-        >
-          Salvar
-        </button>
+        
       </div>
     </>
   );

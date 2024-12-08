@@ -1,9 +1,27 @@
 import React from 'react';
 import NavBar from '../components/NavBar';
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Home: React.FC = () => {
+
+  const navigate = useNavigate();
+
+  const irParaLocacaoMaisProxima = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/api/locations/next");
+      const locacaoMaisProxima = response.data;
+  
+      if (locacaoMaisProxima[0]) {
+        navigate(`/locacoes/${locacaoMaisProxima[0]._id}`)
+      } else {
+        console.log("Nenhuma locação encontrada.");
+      }
+    } catch (error) {
+      console.error("Erro ao buscar locação mais próxima:", error)
+    }
+  }
+
   return (
     <>
       <NavBar />
@@ -51,7 +69,7 @@ const Home: React.FC = () => {
 
         {/* Botão Próxima Locação */}
         <div className="w-full max-w-5xl px-6 flex justify-start">
-          <button className="bg-green-100 text-green-700 px-4 py-4 rounded-full flex items-center gap-2 shadow-md hover:bg-green-200 transition-all">
+          <button onClick={irParaLocacaoMaisProxima} className="bg-green-100 text-green-700 px-4 py-4 rounded-full flex items-center gap-2 shadow-md hover:bg-green-200 transition-all">
             Próxima Locação <span>➡️</span>
           </button>
         </div>

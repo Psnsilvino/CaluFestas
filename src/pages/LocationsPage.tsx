@@ -8,18 +8,10 @@ const LocationsPage: React.FC = () => {
     <>
     <NavBar/>
     <div className="p-8">
-      <div className="flex items-center mb-4">
-        <button className="bg-blue-600 text-white py-2 px-4 rounded-md mr-4">
-          Nova locação
-        </button>
-      </div>
       <h2 className="text-2xl font-semibold flex items-center space-x-2 mb-6">
         <span>Locações</span>
       </h2>
       <LocationTable />
-      <div className="text-blue-600 mt-4 cursor-pointer hover:underline">
-        + Adicionar Locação
-      </div>
     </div>
     </>
   );
