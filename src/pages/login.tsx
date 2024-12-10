@@ -11,7 +11,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3000/api/users/login", {
+      const response = await axios.post("https://calufestas-api.onrender.com/api/users/login", {
         email,
         senha,
       },

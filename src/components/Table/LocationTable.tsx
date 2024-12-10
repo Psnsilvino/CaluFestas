@@ -17,7 +17,7 @@ const LocationTable: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3000/api/locations/uncompleted', { withCredentials: true })
+      .get('https://calufestas-api.onrender.com/api/locations/uncompleted', { withCredentials: true })
       .then((response) => {
         // Verifica se a resposta é um array válido
         if (Array.isArray(response.data)) {

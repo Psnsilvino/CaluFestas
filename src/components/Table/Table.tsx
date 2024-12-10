@@ -35,7 +35,7 @@ export function Table({ categoria, corCategoria, corBorda}: TableProps) {
 	  useEffect(() => {
 		const fetchData = async () => {
 		  try {
-			const response = await axios.get(`http://localhost:3000/api/products/${categoria}`, {withCredentials: true}); // Substitua pela sua URL da API
+			const response = await axios.get(`https://calufestas-api.onrender.com/api/products/${categoria}`, {withCredentials: true}); // Substitua pela sua URL da API
 			setRows(response.data);
 		  } catch (err) {
 			setError(`Erro ao carregar dados: ${err}`);
@@ -74,7 +74,7 @@ export function Table({ categoria, corCategoria, corBorda}: TableProps) {
 	
 		try {
 			console.log(updatedRow._id)
-		  await axios.put(`http://localhost:3000/api/products/${updatedRow._id}`, updatedRow,); // Substitua pela sua URL e endpoint
+		  await axios.put(`https://calufestas-api.onrender.com/api/products/${updatedRow._id}`, updatedRow,); // Substitua pela sua URL e endpoint
 		  setEditRowId(null); // Desabilita o modo de edição após o sucesso
 		  setBackupRow(null); // Limpa o backup após o sucesso
 		  alert('Dados atualizados com sucesso!');

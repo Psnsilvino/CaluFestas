@@ -9,7 +9,7 @@ const Home: React.FC = () => {
 
   const irParaLocacaoMaisProxima = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/locations/next", { withCredentials: true });
+      const response = await axios.get("https://calufestas-api.onrender.com/api/locations/next", { withCredentials: true });
       const locacaoMaisProxima = response.data;
   
       if (locacaoMaisProxima[0]) {

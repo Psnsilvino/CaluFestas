@@ -25,7 +25,7 @@ export const HistoriaLocacoes = ({ idCliente }: HistoriaLocacoesProps) => {
     const fetchLocacoes = async () => {
       console.log(idCliente)
       try {
-        const response = await axios.get<Locacao[]>(`http://localhost:3000/api/locations/cliente/${idCliente}`, { withCredentials: true }); // Altere para a rota correta
+        const response = await axios.get<Locacao[]>(`https://calufestas-api.onrender.com/api/locations/cliente/${idCliente}`, { withCredentials: true }); // Altere para a rota correta
         setLocacoes(response.data);
       } catch (error) {
         console.error("Erro ao buscar os dados de locações:", error);
