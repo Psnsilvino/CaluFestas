@@ -23,7 +23,7 @@ const ClientsPage: React.FC = () => {
   useEffect(() => {
 		const fetchData = async () => {
 		  try {
-			const response = await axios.get(`https://calufestas-api.onrender.com/api/clients`, { withCredentials: true }); // Substitua pela sua URL da API
+			const response = await axios.get(`http://localhost:3000/api/clients`, { withCredentials: true }); // Substitua pela sua URL da API
 			setClients(response.data);
 		  } catch (err) {
 			setError(`Erro ao carregar dados: ${err}`);

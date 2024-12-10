@@ -28,7 +28,7 @@ export const LocacaoForm = ({ novo }: LocacaoFormProps) => {
   useEffect(() => {
     if (!novo && params.idLocacao) {
       axios
-        .get(`https://calufestas-api.onrender.com/api/locations/${params.idLocacao}`, { withCredentials: true })
+        .get(`http://localhost:3000/api/locations/${params.idLocacao}`, { withCredentials: true })
         .then((response) => {
           setLocacao(response.data);
         })
@@ -52,8 +52,8 @@ export const LocacaoForm = ({ novo }: LocacaoFormProps) => {
     };
 
     const request = novo
-      ? axios.post("https://calufestas-api.onrender.com/api/locations", formattedData, { withCredentials: true })
-      : axios.put(`https://calufestas-api.onrender.com/api/locations/${params.idLocacao}`, formattedData, { withCredentials: true });
+      ? axios.post("http://localhost:3000/api/locations", formattedData, { withCredentials: true })
+      : axios.put(`http://localhost:3000/api/locations/${params.idLocacao}`, formattedData, { withCredentials: true });
 
     request
       .then(() => {

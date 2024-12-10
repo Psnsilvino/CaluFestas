@@ -24,7 +24,7 @@ export const ProdutosAlugados = ({ idLocacao }: ProdutosAlugadosProps) => {
     const fetchProdutos = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`https://calufestas-api.onrender.com/api/locatedProducts/${idLocacao}`, { withCredentials: true });
+        const response = await axios.get(`http://localhost:3000/api/locatedProducts/${idLocacao}`, { withCredentials: true });
         console.log(response.data); // Verifique a resposta aqui
         const data = Array.isArray(response.data) ? response.data : [];
         setProdutos(data);

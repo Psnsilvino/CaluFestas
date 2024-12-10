@@ -25,7 +25,7 @@ const ClientDetails = ({ novo }: ClientDetailsProps) => {
     // Verifica se é um cliente novo ou existente
     if (!novo && params.idCliente) {
       axios
-        .get(`https://calufestas-api.onrender.com/api/clients/${params.idCliente}`, { withCredentials:true })
+        .get(`http://localhost:3000/api/clients/${params.idCliente}`, { withCredentials:true })
         .then((response) => {
           const { nome, telefone, email, endereco } = response.data;
           setNome(nome);
@@ -50,7 +50,7 @@ const ClientDetails = ({ novo }: ClientDetailsProps) => {
 
     if (novo) {
       axios
-        .post("https://calufestas-api.onrender.com/api/clients", { nome: nome, telefone: telefone, email: email, endereco: endereco }, { withCredentials:true })
+        .post("http://localhost:3000/api/clients", { nome: nome, telefone: telefone, email: email, endereco: endereco }, { withCredentials:true })
         .then(() => {
           alert("Cliente criado com sucesso!");
         })
@@ -60,7 +60,7 @@ const ClientDetails = ({ novo }: ClientDetailsProps) => {
         });
     } else if (params.idCliente) {
       axios
-        .put(`https://calufestas-api.onrender.com/api/clients/${params.idCliente}`, { nome: nome, telefone: telefone, email: email, endereco: endereco }, { withCredentials: true })
+        .put(`http://localhost:3000/api/clients/${params.idCliente}`, { nome: nome, telefone: telefone, email: email, endereco: endereco }, { withCredentials: true })
         .then(() => {
           alert("Dados atualizados com sucesso!");
         })

@@ -23,7 +23,7 @@ const AddProductForm: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get<Product[]>('https://calufestas-api.onrender.com/api/products', {withCredentials: true});
+        const response = await axios.get<Product[]>('http://localhost:3000/api/products', {withCredentials: true});
         setProducts(response.data);
       } catch (err) {
         setError('Erro ao carregar os produtos.');
@@ -66,7 +66,7 @@ const AddProductForm: React.FC = () => {
 
     try {
       // Envia os dados para o backend
-      const response = await axios.post('https://calufestas-api.onrender.com/api/locatedProducts', {
+      const response = await axios.post('http://localhost:3000/api/locatedProducts', {
         produto: selectedProduct,
         nomeProduto: productDetails ? productDetails.nome : "",
         locacao: params.idLocacao,
