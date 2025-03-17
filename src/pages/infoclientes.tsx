@@ -59,8 +59,9 @@ const ClientDetails = ({ novo }: ClientDetailsProps) => {
           console.error(err);
         });
     } else if (params.idCliente) {
+      console.log({ nome: nome, telefone: telefone, email: email, endereco: endereco })
       axios
-        .put(`http://localhost:3000/api/clients/${params.idCliente}`, { nome: nome, telefone: telefone, email: email, endereco: endereco }, { withCredentials: true })
+        .put(`http://localhost:3000/api/clients/${params.idCliente}`, { nome: nome, telefone: telefone.toString(), email: email, endereco: endereco }, { withCredentials: true })
         .then(() => {
           alert("Dados atualizados com sucesso!");
         })
